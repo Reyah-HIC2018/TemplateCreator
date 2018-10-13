@@ -9,14 +9,14 @@
     @blur="stopEditing"
     @focus="startEditing"
   ></textarea>
-  <a :href="downloadable" :download="filename">Upload template file</a>
+  <button v-on:click="upload">Upload template file</button>
 </div>
 </template>
 
 <script>
 export default {
   name: 'zone-viewer',
-  props: ['selections', 'batchUpdateSelections', 'originalFilename'],
+  props: ['selections', 'batchUpdateSelections', 'originalFilename', 'arrayBuffer'],
   data () {
     return {
       uzn: null,
@@ -24,13 +24,8 @@ export default {
     }
   },
   computed: {
-    downloadable () {
-      const blob = new Blob([this.uzn], {type: 'octet/stream'})
-      const url = window.URL.createObjectURL(blob)
-      return url
-    },
     filename () {
-      return this.originalFilename.replace(/(.*)\..*/, '$1.uzn')
+      return this.originalFilename.replace(/(.*)\..*/, '$1')
     }
   },
   mounted () {
@@ -42,6 +37,22 @@ export default {
     }
   },
   methods: {
+    upload () {
+      let body = {}
+      body.template = this.arrayBuffer
+      body.fields = []
+      for (let line of this.uzn.split('\n')) {
+        const results = /([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) (.*)/.exec(line)
+        body.fields.push({
+          x1: results[1],
+          y1: results[2],
+          x2: results[3],
+          y2: results[4],
+          name: results[5]
+        })
+      }
+      fetch(`/${this.filename}`, { method: 'POST', body })
+    },
     startEditing () {
       this.editing = true
     },

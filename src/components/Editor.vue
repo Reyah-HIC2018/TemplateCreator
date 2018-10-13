@@ -5,7 +5,7 @@
       <Uploader :notify="newFile"></Uploader>
       <p v-if="name"><strong>Click and drag on the image to the right</strong> to form selection areas.</p>
 
-      <ZoneViewer :selections="selections" class='zone-viewer' :batchUpdateSelections="batchUpdateSelections" :originalFilename="name" v-if="src"></ZoneViewer>
+      <ZoneViewer :arrayBuffer="arrayBuffer" :selections="selections" class='zone-viewer' :batchUpdateSelections="batchUpdateSelections" :originalFilename="name" v-if="src"></ZoneViewer>
     </div>
     <div class='content'>
       <Annotator :src="src" :setSize="setSize" :arrayBuffer="arrayBuffer" :name="name" :selections="selections" :addSelection="addSelection"></Annotator>
