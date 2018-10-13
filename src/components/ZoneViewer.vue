@@ -9,7 +9,7 @@
     @blur="stopEditing"
     @focus="startEditing"
   ></textarea>
-  <a :href="downloadable" :download="filename">Download .uzn file</a>
+  <a :href="downloadable" :download="filename">Upload template file</a>
 </div>
 </template>
 

@@ -2,12 +2,10 @@
   <div>
     <h3 v-if="name">
       Currently working on: <span class="filename">{{ name }}</span>
-      <span class="filetype">{{ arrayBuffer ? "PDF" : "image" }}</span>
+      <span class="filetype">image</span>
     </h3>
-    <p>If you want to zoom in/out, you'll need to use your browser zoom for the moment.</p>
     <div class='selection-area' @mousedown="start" @mouseup="end" @mousemove="drag" v-if="src || arrayBuffer" ref="selectionArea">
       <img :src="src" v-if="src">
-      <PDF :setPdfSize="setPdfSize" :arrayBuffer="arrayBuffer" v-if="arrayBuffer"></PDF>
       <SelectionPreview :coordinates="coordinates" v-if="arrayBuffer"></SelectionPreview>
       <AreaSelect :coordinates="coordinates" ref="activeSelector" color="rgb(0,255,0)" active="true"></AreaSelect>
       <AreaSelect v-for="selection in selections"
@@ -22,17 +20,15 @@
 
 <script>
 import AreaSelect from '@/components/AreaSelect'
-import PDF from '@/components/PDF'
 import SelectionPreview from '@/components/SelectionPreview'
 
 export default {
   name: 'Annotator',
   components: {
     AreaSelect,
-    PDF,
     SelectionPreview
   },
-  props: ['src', 'name', 'selections', 'addSelection', 'arrayBuffer', 'setPdfSize'],
+  props: ['src', 'name', 'selections', 'addSelection', 'arrayBuffer', 'setSize'],
   data () {
     return {
       down: false,

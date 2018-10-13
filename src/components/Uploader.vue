@@ -3,7 +3,7 @@
     <div id="dragover" @dragover="dragover" @drop="drop">
       <h3>Drag &amp; drop your file here</h3>
       <p>or <label for="file">click to browse</label></p>
-      <p>accepts images and PDFs</p>
+      <p>accepts images</p>
       <input type="file" id="file" name="file" @change="selected">
     </div>
   </div>
@@ -29,12 +29,6 @@ export default {
         src: readerData.target.result
       })
     },
-    processReaderPDF: function (readerData) {
-      this.notify({
-        name: this.name,
-        arrayBuffer: readerData.target.result
-      })
-    },
     getFile: function (fileList) {
       let file = fileList[0]
 
@@ -44,12 +38,8 @@ export default {
         let reader = new FileReader()
         reader.addEventListener('load', this.processReaderImage, false)
         reader.readAsDataURL(file)
-      } else if (file.type.match('.*pdf.*')) {
-        let reader = new FileReader()
-        reader.addEventListener('load', this.processReaderPDF, false)
-        reader.readAsArrayBuffer(file)
       } else {
-        alert('Not a PDF or image file')
+        alert('Not an image file')
       }
     },
     selected: function (event) {

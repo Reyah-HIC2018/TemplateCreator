@@ -1,17 +1,14 @@
 <template>
   <div class='editor'>
     <div class='sidebar'>
-      <h1>Kull</h1>
-      <p><strong>A tool to interactively select text regions of PDFs and images.</strong> Use with <a href="https://github.com/jcushman/pdfquery">PDFQuery</a> (Python/PDF) or to make UZN/OCR zone files for <a href="https://github.com/tesseract-ocr/tesseract">tesseract</a> (image-to-text).</p>
-      <p>More details (maybe) at <a href="https://github.com/jsoma/kull">https://github.com/jsoma/kull</a>.</p>
+      <h1>Reyah Template Creator</h1>
       <Uploader :notify="newFile"></Uploader>
       <p v-if="name"><strong>Click and drag on the image to the right</strong> to form selection areas.</p>
 
       <ZoneViewer :selections="selections" class='zone-viewer' :batchUpdateSelections="batchUpdateSelections" :originalFilename="name" v-if="src"></ZoneViewer>
-      <PDFZoneViewer :dimensions="pdfDimensions" :selections="selections" class='zone-viewer' :batchUpdateSelections="batchUpdateSelections" :originalFilename="name" v-if="arrayBuffer"></PDFZoneViewer>
     </div>
     <div class='content'>
-      <Annotator :src="src" :setPdfSize="setPdfSize" :arrayBuffer="arrayBuffer" :name="name" :selections="selections" :addSelection="addSelection"></Annotator>
+      <Annotator :src="src" :setSize="setSize" :arrayBuffer="arrayBuffer" :name="name" :selections="selections" :addSelection="addSelection"></Annotator>
     </div>
   </div>
 </template>
@@ -20,7 +17,6 @@
 import Uploader from '@/components/Uploader'
 import Annotator from '@/components/Annotator'
 import ZoneViewer from '@/components/ZoneViewer'
-import PDFZoneViewer from '@/components/PDFZoneViewer'
 import randomColor from 'randomcolor'
 
 export default {
@@ -28,8 +24,7 @@ export default {
   components: {
     Uploader,
     Annotator,
-    ZoneViewer,
-    PDFZoneViewer
+    ZoneViewer
   },
   data () {
     return {
@@ -37,7 +32,7 @@ export default {
       arrayBuffer: null,
       name: '',
       selections: [],
-      pdfDimensions: {
+      dimensions: {
         height: 0,
         width: 0
       }
@@ -47,8 +42,8 @@ export default {
     batchUpdateSelections: function (selections) {
       this.selections = selections
     },
-    setPdfSize: function (width, height) {
-      this.pdfDimensions = {
+    setSize: function (width, height) {
+      this.dimensions = {
         width: width,
         height: height
       }
