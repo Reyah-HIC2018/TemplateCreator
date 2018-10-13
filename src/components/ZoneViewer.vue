@@ -40,10 +40,10 @@ export default {
     upload () {
       let body = {}
       body.template = this.arrayBuffer
-      body.fields = []
+      body.metadata = []
       for (let line of this.uzn.split('\n')) {
         const results = /([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) (.*)/.exec(line)
-        body.fields.push({
+        body.metadata.push({
           x1: results[1],
           y1: results[2],
           x2: results[3],
@@ -51,7 +51,7 @@ export default {
           name: results[5]
         })
       }
-      fetch(`/${this.filename}`, { method: 'POST', body })
+      fetch(`/models/${this.filename}`, { method: 'POST', body })
     },
     startEditing () {
       this.editing = true
